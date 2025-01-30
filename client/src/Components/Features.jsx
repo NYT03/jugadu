@@ -1,0 +1,59 @@
+import { Code, Users, Trophy } from 'lucide-react'
+
+const featuresStyle = {
+  padding: '5rem 0',
+  backgroundColor: '#f3f4f6',
+}
+
+const containerStyle = {
+  maxWidth: '1200px',
+  margin: '0 auto',
+  padding: '0 1rem',
+}
+
+const gridStyle = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+  gap: '2rem',
+  marginTop: '3rem',
+}
+
+const featureStyle = {
+  backgroundColor: 'white',
+  padding: '1.5rem',
+  borderRadius: '0.5rem',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  textAlign: 'center',
+}
+
+const iconStyle = {
+  width: '3rem',
+  height: '3rem',
+  margin: '0 auto 1rem',
+  color: '#2563eb',
+}
+
+export default function Features() {
+  const features = [
+    { Icon: Code, title: 'Code', description: 'Build innovative projects using cutting-edge technologies.' },
+    { Icon: Users, title: 'Collaborate', description: 'Work with like-minded individuals and form lasting connections.' },
+    { Icon: Trophy, title: 'Compete', description: 'Showcase your skills and win exciting prizes.' },
+  ]
+
+  return (
+    <section style={featuresStyle}>
+      <div style={containerStyle}>
+        <h2 style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '3rem' }}>Why Participate?</h2>
+        <div style={gridStyle}>
+          {features.map((feature, index) => (
+            <div key={index} style={featureStyle}>
+              <feature.Icon style={iconStyle} />
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 'semibold', marginBottom: '0.5rem' }}>{feature.title}</h3>
+              <p style={{ color: '#4b5563' }}>{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
