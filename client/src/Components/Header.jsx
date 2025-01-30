@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import Button from "./Button";
 const headerStyle = {
   backgroundColor: "#1a202c",
   color: "white",
@@ -7,7 +7,6 @@ const headerStyle = {
 };
 
 const containerStyle = {
-  maxWidth: "1200px",
   margin: "0 auto",
   padding: "0 1rem",
   display: "flex",
@@ -27,21 +26,41 @@ const linkStyle = {
   color: "white",
   textDecoration: "none",
   transition: "color 0.3s",
+  alignItems: "center",
+  justifyContent: "center",
+  margin: "0.7rem",
 };
 
 export default function Header() {
   return (
     <header style={headerStyle}>
       <div style={containerStyle}>
-        <Link to="/" style={{ ...linkStyle, fontSize: "1.5rem", fontWeight: "bold" }}>
+        <Link
+          to="/"
+          style={{ ...linkStyle, fontSize: "1.5rem", fontWeight: "bold" }}
+        >
           Jugadu
         </Link>
         <nav>
           <ul style={navStyle}>
-            <li><Link to="/about" style={linkStyle}>About</Link></li>
-            <li><Link to="/schedule" style={linkStyle}>Schedule</Link></li>
-            <li><Link to="/sponsors" style={linkStyle}>Sponsors</Link></li>
-            <li><Link to="/contact" style={linkStyle}>Contact</Link></li>
+            <li style={linkStyle}>
+              <Link to="/detect">Detector</Link>
+            </li>
+            <li style={linkStyle}>
+              <Link to="/about">About</Link>
+            </li>
+            <li style={linkStyle}>
+              <Link to="/schedule">Schedule</Link>
+            </li>
+            <li style={linkStyle}>
+              <Link to="/contact">Contact</Link>
+            </li>
+
+            <li>
+              <Link to="/login">
+                <Button name="Login" />
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
