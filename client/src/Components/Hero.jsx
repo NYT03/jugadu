@@ -1,117 +1,35 @@
-const Loader = () => {
-  const loaderStyle = {
-    width: '150px',
-    height: '150px',
-    position: 'relative',
-  }
+"use client"
 
-  const elementStyle = {
-    position: 'absolute',
+import { useState, useEffect } from "react";
+import Loader from "./Loader";
+
+const Hero = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-64px)]">
+        <Loader />
+      </div>
+    );
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div style={loaderStyle}>
-        <div style={{
-          ...elementStyle,
-          width: '15px',
-          height: '65px',
-          backgroundColor: '#f4b400',
-          animation: 'move-h 1.2s infinite cubic-bezier(0.65, 0.05, 0.36, 1)',
-        }} />
-        <div style={{
-          ...elementStyle,
-          width: '15px',
-          height: '60px',
-          backgroundColor: '#db4437',
-          transform: 'rotate(90deg)',
-          animation: 'move-v 1.2s infinite cubic-bezier(0.65, 0.05, 0.36, 1)',
-        }} />
-        <div style={{
-          ...elementStyle,
-          width: '1px',
-          height: '40px',
-          opacity: 0.3,
-          top: 0,
-          left: '8%',
-          backgroundColor: '#0f9d58',
-          animation: 'effect 0.2s 0.1s infinite linear',
-        }} />
-        <div style={{
-          ...elementStyle,
-          width: '60px',
-          height: '1px',
-          opacity: 0.8,
-          top: '8%',
-          left: 0,
-          backgroundColor: '#4285f4',
-          animation: 'effect 0.3s 0.2s infinite linear',
-        }} />
-        <div style={{
-          ...elementStyle,
-          top: '10%',
-          left: '12%',
-          fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-          fontWeight: 900,
-          fontSize: '18px',
-          color: '#4285f4',
-          animation: 'rot 0.8s infinite cubic-bezier(0.65, 0.05, 0.36, 1)',
-        }}>
-          X
-        </div>
-        <div style={{
-          ...elementStyle,
-          width: '1px',
-          height: '40px',
-          opacity: 0.3,
-          top: '90%',
-          right: '10%',
-          backgroundColor: '#db4437',
-          animation: 'effect 0.2s 0.1s infinite linear',
-        }} />
-        <div style={{
-          ...elementStyle,
-          width: '40px',
-          height: '1px',
-          opacity: 0.3,
-          top: '100%',
-          right: 0,
-          backgroundColor: '#f4b400',
-          animation: 'effect 0.3s 0.2s infinite linear',
-        }} />
-        <div style={{
-          ...elementStyle,
-          top: '100%',
-          right: 0,
-          fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-          fontSize: '32px',
-          color: '#0f9d58',
-          animation: 'scale 0.8s infinite cubic-bezier(0.65, 0.05, 0.36, 1)',
-        }}>
-          *
-        </div>
-        <div style={{
-          ...elementStyle,
-          width: '1px',
-          height: '20px',
-          bottom: 0,
-          left: 0,
-          transform: 'rotate(45deg)',
-          backgroundColor: '#f4b400',
-          animation: 'height 1s infinite cubic-bezier(0.65, 0.05, 0.36, 1)',
-        }} />
-        <div style={{
-          ...elementStyle,
-          width: '20px',
-          height: '1px',
-          bottom: '50%',
-          left: 0,
-          backgroundColor: '#0f9d58',
-          animation: 'width 1.5s infinite cubic-bezier(0.65, 0.05, 0.36, 1)',
-        }} />
+    <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+      <div className="container mx-auto px-4 text-center">
+        <h1 className="text-5xl font-bold mb-4">Welcome to HackathonX</h1>
+        <p className="text-xl mb-8">Join us for 48 hours of coding, creativity, and innovation!</p>
+        <button className="bg-white text-blue-600 font-bold py-2 px-6 rounded-full hover:bg-blue-100 transition-colors">
+          Register Now
+        </button>
       </div>
-    </div>
-  )
-}
+    </section>
+  );
+};
 
-export default Loader
+export default Hero;

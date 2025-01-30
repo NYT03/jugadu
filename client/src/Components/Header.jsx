@@ -34,7 +34,7 @@ export default function Header() {
     <header style={headerStyle}>
       <div style={containerStyle}>
         <Link to="/" style={{ ...linkStyle, fontSize: "1.5rem", fontWeight: "bold" }}>
-          HackathonX
+          Jugadu
         </Link>
         <nav>
           <ul style={navStyle}>
