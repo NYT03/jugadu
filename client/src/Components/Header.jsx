@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Import authentication context
 import Button from "./Button";
+
 const headerStyle = {
   backgroundColor: "#1a202c",
   color: "white",
@@ -32,6 +34,14 @@ const linkStyle = {
 };
 
 export default function Header() {
+  const { isAuthenticated, logout } = useAuth(); // Use authentication context
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout(); // Call logout function from AuthContext
+    navigate("/login"); // Redirect to login page
+  };
+
   return (
     <header style={headerStyle}>
       <div style={containerStyle}>
@@ -60,9 +70,13 @@ export default function Header() {
             </li>
 
             <li>
-              <Link to="/login">
-                <Button name="Login" />
-              </Link>
+              {isAuthenticated ? (
+                <Button name="Logout" onClick={handleLogout} />
+              ) : (
+                <Link to="/login">
+                  <Button name="Login" />
+                </Link>
+              )}
             </li>
           </ul>
         </nav>

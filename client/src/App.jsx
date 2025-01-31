@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
-import Loader from "./Components/Loader"; // Import your Loader component
+import Loader from "./Components/Loader";
 import About from "./Pages/About";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
@@ -9,43 +8,38 @@ import Detector from "./Pages/Detector";
 import Schedule from "./Pages/Schedule";
 import Contact from "./Pages/Contact";
 import Volume from "./Pages/Volume";
-function App() {
-  const [loading, setLoading] = useState(true);
+import { AuthProvider, useAuth } from "./Context/AuthContext";
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3000); // Simulate loading for 3 seconds
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Loader />
-      </div>
-    );
-  }
-
-  const user = true;
-  console.log("user");
+function AppContent() {
+  const { user } = useAuth();
 
   return (
-    <>
+    <Routes>
       {user ? (
-        <Routes>
+        <>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/detect" element={<Detector />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/vol" element={<Volume />} />
-        </Routes>
+          <Route path="*" element={<Navigate to="/" />} />
+        </>
       ) : (
-        <Routes>
-          {/* <Route path="/login" element={<Login />} /> */}
-        </Routes>
+        <>
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<Navigate to="/login" />} />
+        </>
       )}
-    </>
+    </Routes>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

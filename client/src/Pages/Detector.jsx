@@ -1,4 +1,3 @@
-import React from "react";
 import FileUploder from "../Components/FileUploder";
 import Header from "../Components/Header";
 function Detector() {

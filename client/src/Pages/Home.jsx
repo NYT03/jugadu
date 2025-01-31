@@ -3,7 +3,6 @@ import Footer from '../Components/Footer'
 import Header from '../Components/Header'
 import Hero from '../Components/Hero'
 import HomeAnalytics from '../Components/HomeAnalytics'
-import RotatingCard from './../Components/RotatingCard'
 import HomeImapct from '../Components/HomeImapct'
 export default function Home() {
   return (

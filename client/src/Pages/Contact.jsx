@@ -1,6 +1,5 @@
-import React from 'react'
-import Header from '../Components/Header'
 import ContactPage from '../Components/ContactPage'
+import Header from '../Components/Header'
 
 function Contact() {
   return (

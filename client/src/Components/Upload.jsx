@@ -40,6 +40,8 @@ const StyledWrapper = styled.div`
   .file-upload-label {
     cursor: pointer;
     background-color: #ddd;
+    width: 30vw;
+    height: auto;
     padding: 30px 70px;
     border-radius: 40px;
     border: 2px dashed rgb(82, 82, 82);
