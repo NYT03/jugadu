@@ -44,7 +44,10 @@ export default function Header() {
         <nav>
           <ul style={navStyle}>
             <li style={linkStyle}>
-              <Link to="/detect">Detector</Link>
+              <Link to="/detect">Crack Detector</Link>
+            </li>
+            <li style={linkStyle}>
+              <Link to="/vol">Volume Detector</Link>
             </li>
             <li style={linkStyle}>
               <Link to="/about">About</Link>

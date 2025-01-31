@@ -6,6 +6,9 @@ import About from "./Pages/About";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Detector from "./Pages/Detector";
+import Schedule from "./Pages/Schedule";
+import Contact from "./Pages/Contact";
+import Volume from "./Pages/Volume";
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -33,6 +36,9 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/detect" element={<Detector />} />
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/vol" element={<Volume />} />
         </Routes>
       ) : (
         <Routes>

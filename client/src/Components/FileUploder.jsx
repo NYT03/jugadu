@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
-import SendButton from '../Components/SendButton';  
-const FileUploder = () => {
+import DownloadButton from "../Components/DownloadButton";
+import SendButton from "../Components/SendButton";
+const FileUploder = () => {  
   const [file, setFile] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState(null);
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -29,8 +31,9 @@ const FileUploder = () => {
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.pdfUrl) {
         alert("File uploaded successfully");
+        setPdfUrl(response.data.pdfUrl); // Store the returned PDF URL
       } else {
         alert("File upload failed");
       }
@@ -42,7 +45,7 @@ const FileUploder = () => {
 
   return (
     <StyledWrapper>
-      <div className="flex flex-col gap-10 justify-center align-middle items-center border p-[5vw] pt-[10vh] pb-[15vh] bg-[#e8e8e8] rounded-lg shadow-[inset_0_-3em_3em_rgba(0,0,0,0.1),_0_0_0_2px_rgb(190,190,190),_0.3em_0.3em_1em_rgba(0,0,0,0.3)] transition-all duration-[500ms] ease-out">
+      <div className="flex flex-col gap-10 justify-center align-middle items-center border p-[5vw] pt-[10vh] pb-[6vh] bg-[#e8e8e8] rounded-lg shadow-[inset_0_-3em_3em_rgba(0,0,0,0.1),_0_0_0_2px_rgb(190,190,190),_0.3em_0.3em_1em_rgba(0,0,0,0.3)] transition-all duration-[500ms] ease-out">
         <div className="container">
           <div className="folder">
             <div className="front-side">
@@ -61,7 +64,8 @@ const FileUploder = () => {
             Choose a file
           </label>
         </div>
-        <SendButton onClick={handleUpload}/>
+        <SendButton onClick={handleUpload} />
+        {pdfUrl && <DownloadButton name="Download Report" fileUrl={pdfUrl} />}
       </div>
     </StyledWrapper>
   );

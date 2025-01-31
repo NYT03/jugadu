@@ -1,4 +1,4 @@
-import { Code, Users, Trophy } from 'lucide-react'
+import { Search, Wrench, ShieldCheck } from 'lucide-react'
 
 const featuresStyle = {
   padding: '5rem 0',
@@ -35,15 +35,15 @@ const iconStyle = {
 
 export default function Features() {
   const features = [
-    { Icon: Code, title: 'Code', description: 'Build innovative projects using cutting-edge technologies.' },
-    { Icon: Users, title: 'Collaborate', description: 'Work with like-minded individuals and form lasting connections.' },
-    { Icon: Trophy, title: 'Compete', description: 'Showcase your skills and win exciting prizes.' },
+    { Icon: Search, title: 'Early Detection', description: 'Implement AI-based crack detection and thermal imaging to identify cracks before they become critical.' },
+    { Icon: Wrench, title: 'Proactive Maintenance', description: 'Schedule routine inspections and invest in predictive maintenance to prevent costly repairs and breakdowns.' },
+    { Icon: ShieldCheck, title: 'Safety & Compliance', description: 'Ensure structural integrity, meet regulatory standards, and protect employees and cargo from potential hazards.' },
   ]
 
   return (
     <section style={featuresStyle}>
       <div style={containerStyle}>
-        <h2 style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '3rem' }}>Why Participate?</h2>
+        <h2 style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '3rem' }}>Solutions to Cracks in Rail Wagons</h2>
         <div style={gridStyle}>
           {features.map((feature, index) => (
             <div key={index} style={featureStyle}>
