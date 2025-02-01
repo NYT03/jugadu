@@ -1,18 +1,17 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Loader from "./Components/Loader";
+import { useAuth } from "./Context/AuthContext";
 import About from "./Pages/About";
+import Contact from "./Pages/Contact";
+import Detector from "./Pages/Detector";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
-import Detector from "./Pages/Detector";
 import Schedule from "./Pages/Schedule";
-import Contact from "./Pages/Contact";
 import Volume from "./Pages/Volume";
-import { AuthProvider, useAuth } from "./Context/AuthContext";
 
 function AppContent() {
   const { user } = useAuth();
-
+  console.log(user);
   return (
     <Routes>
       {user ? (
@@ -31,15 +30,13 @@ function AppContent() {
           <Route path="*" element={<Navigate to="/login" />} />
         </>
       )}
-    </Routes>
+    </Routes> 
   );
 }
 
 function App() {
   return (
-    <AuthProvider>
       <AppContent />
-    </AuthProvider>
   );
 }
 

@@ -26,8 +26,8 @@ const Form = () => {
       if (response.ok) {
         console.log("Login successful:", data);
 
-        // Call login function from AuthContext (which updates global state and localStorage)
-        login(data.token);
+        // Call login function from AuthContext with user data
+        login(data.user);
 
         // Redirect to home page
         window.location.href = "/";

@@ -3,26 +3,35 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import DownloadButton from "../Components/DownloadButton";
 import SendButton from "../Components/SendButton";
-const FileUploder = () => {  
+
+const FileUploader = () => {
   const [file, setFile] = useState(null);
   const [pdfUrl, setPdfUrl] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Added loading state
+  const [fileName, setFileName] = useState(""); // State to store the file name
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    setFileName(selectedFile ? selectedFile.name : ""); // Set file name
+    console.log("Selected file:", selectedFile);
   };
 
   const handleUpload = async () => {
+    console.log("upload");
     if (!file) {
       alert("Please select a file to upload.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("video", file);
+
+    setIsLoading(true); // Show loader
 
     try {
       const response = await axios.post(
-        "YOUR_API_ENDPOINT", // Replace with your API endpoint
+        "http://127.0.0.1:8000/detect", // Replace with your API endpoint
         formData,
         {
           headers: {
@@ -31,21 +40,45 @@ const FileUploder = () => {
         }
       );
 
-      if (response.status === 200 && response.data.pdfUrl) {
+      if (response.status === 200) {
         alert("File uploaded successfully");
-        setPdfUrl(response.data.pdfUrl); // Store the returned PDF URL
+        // Save the report URL from the response
+        setPdfUrl(response.data.report_url);
+        console.log(pdfUrl)
       } else {
         alert("File upload failed");
       }
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("Error uploading file");
+    } finally {
+      setIsLoading(false); // Hide loader after upload completes
     }
   };
 
+  const handleDownload = async () => {
+    console.log("download");
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/${pdfUrl}`, {
+        responseType: "blob",
+      });
+  
+      const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "report.docx"; // Set the correct file extension
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading DOCX:", error);
+      alert("Error downloading DOCX");
+    }
+  };
+  
   return (
     <StyledWrapper>
-      <div className="flex flex-col gap-10 justify-center align-middle items-center border p-[5vw] pt-[10vh] pb-[6vh] bg-[#e8e8e8] rounded-lg shadow-[inset_0_-3em_3em_rgba(0,0,0,0.1),_0_0_0_2px_rgb(190,190,190),_0.3em_0.3em_1em_rgba(0,0,0,0.3)] transition-all duration-[500ms] ease-out">
+      <div className="flex flex-col gap-10 justify-center align-middle items-center border p-[5vw] pt-[10vh] pb-[6vh] bg-[#e8e8e8] rounded-lg shadow-lg transition-all duration-500 ease-out">
         <div className="container">
           <div className="folder">
             <div className="front-side">
@@ -63,13 +96,25 @@ const FileUploder = () => {
             />
             Choose a file
           </label>
+          {/* Display selected file name */}
+          {fileName && <p>Selected File: {fileName}</p>}
         </div>
         <SendButton onClick={handleUpload} />
-        {pdfUrl && <DownloadButton name="Download Report" fileUrl={pdfUrl} />}
+        {isLoading && <Loader />} {/* Show loader when uploading */}
+        {pdfUrl && <DownloadButton onClick={handleDownload} />}
+        {/* {<DownloadButton download={handleDownload} />} */}
       </div>
     </StyledWrapper>
   );
 };
+
+// 🔹 Loader Component
+const Loader = () => (
+  <LoaderWrapper>
+    <div className="spinner"></div>
+    <p>Uploading...</p>
+  </LoaderWrapper>
+);
 
 const StyledWrapper = styled.div`
   .container {
@@ -197,4 +242,29 @@ const StyledWrapper = styled.div`
   }
 `;
 
-export default FileUploder;
+const LoaderWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #3498db;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+export default FileUploader;

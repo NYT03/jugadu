@@ -34,7 +34,8 @@ const linkStyle = {
 };
 
 export default function Header() {
-  const { isAuthenticated, logout } = useAuth(); // Use authentication context
+  const { user, logout } = useAuth(); // Use authentication context
+  // Use authentication context
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -70,7 +71,7 @@ export default function Header() {
             </li>
 
             <li>
-              {isAuthenticated ? (
+              {user ? (
                 <Button name="Logout" onClick={handleLogout} />
               ) : (
                 <Link to="/login">
