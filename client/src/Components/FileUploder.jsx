@@ -17,6 +17,7 @@ const FileUploader = () => {
     console.log("Selected file:", selectedFile);
   };
 
+
   const handleUpload = async () => {
     console.log("upload");
     if (!file) {
@@ -31,7 +32,7 @@ const FileUploader = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/detect", // Replace with your API endpoint
+        "http://localhost:8000/detect", // Replace with your API endpoint
         formData,
         {
           headers: {
@@ -44,7 +45,8 @@ const FileUploader = () => {
         alert("File uploaded successfully");
         // Save the report URL from the response
         setPdfUrl(response.data.report_url);
-        console.log(pdfUrl)
+        
+        console.log(response)
       } else {
         alert("File upload failed");
       }
@@ -59,7 +61,7 @@ const FileUploader = () => {
   const handleDownload = async () => {
     console.log("download");
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/${pdfUrl}`, {
+      const response = await axios.get(`http://localhost:8000${pdfUrl}`, {
         responseType: "blob",
       });
   
@@ -101,7 +103,7 @@ const FileUploader = () => {
         </div>
         <SendButton onClick={handleUpload} />
         {isLoading && <Loader />} {/* Show loader when uploading */}
-        {pdfUrl && <DownloadButton onClick={handleDownload} />}
+        {pdfUrl && <DownloadButton download={handleDownload} />}
         {/* {<DownloadButton download={handleDownload} />} */}
       </div>
     </StyledWrapper>

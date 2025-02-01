@@ -1,17 +1,20 @@
-import React, { useState } from "react";
 import axios from "axios";
-import Upload from "../Components/Upload";
+import React, { useState } from "react";
 import Header from "../Components/Header";
 import SendButton from "../Components/SendButton";
+import Upload from "../Components/Upload";
 
 function Volume() {
   const [file, setFile] = useState(null);
-  const [response, setResponse] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fileName, setFileName] = useState(""); // Store file name
+  const [error, setError] = useState(null); // Store error message
+  const [response, setResponse] = useState(null); // Store API response
 
   const handleFileChange = (selectedFile) => {
     setFile(selectedFile);
+    setFileName(selectedFile ? selectedFile.name : "");
   };
 
   const handleUpload = async () => {
@@ -19,25 +22,36 @@ function Volume() {
       setError("Please select a file to upload.");
       return;
     }
-    
-    setLoading(true);
-    setError(null);
-    setResponse(null);
-    
+
     const formData = new FormData();
-    formData.append("file", file);
-    
+    formData.append("video", file);
+
+    setIsLoading(true);
+    setError(null); // Reset any previous error
+    setResponse(null); // Reset the previous response
+
     try {
-      const res = await axios.post("https://your-api-endpoint.com/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      setResponse(res.data);
-    } catch (err) {
+      const response = await axios.post(
+        "http://localhost:8000/getvolume", // Replace with your API endpoint
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Request headers
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setPdfUrl(response.data.report_url);
+        setResponse(response.data);
+      } else {
+        setError("File upload failed.");
+      }
+    } catch (error) {
       setError("Error uploading file. Please try again.");
+      console.error("Error uploading file:", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -50,14 +64,24 @@ function Volume() {
           <Upload onFileSelect={handleFileChange} />
           <SendButton onClick={handleUpload} />
         </div>
-        {loading && <p className="text-white">Uploading...</p>}
+
+        {/* File Information */}
+        {fileName && <p className="text-white">Selected File: {fileName}</p>}
+
+        {/* Loading Indicator */}
+        {isLoading && <p className="text-white">Uploading...</p>}
+
+        {/* Error Handling */}
         {error && <p className="text-red-500">{error}</p>}
+
+        {/* Response Display */}
         {response && (
           <div className="bg-white text-black p-5 rounded-lg shadow-lg w-96 text-center mt-5">
             <h2 className="text-xl font-bold">Response</h2>
-            <p>{JSON.stringify(response, null, 2)}</p>
+            <pre>{JSON.stringify(response, null, 2)}</pre>
           </div>
         )}
+
       </main>
     </div>
   );
